@@ -1,0 +1,6 @@
+@dinks_server_HostAddress = http://localhost:5094
+
+GET {{dinks_server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

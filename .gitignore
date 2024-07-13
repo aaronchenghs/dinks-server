@@ -1,0 +1,16 @@
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# User-specific files (Mono auto generated)
+mono_crash.*
+
+# Auto-generated files
+*.log
+
+# Directories
+.vs/
+.vscode/
