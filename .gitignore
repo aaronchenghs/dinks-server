@@ -14,3 +14,33 @@ mono_crash.*
 # Directories
 .vs/
 .vscode/
+
+.env
+
+# Ignore build output directories
+bin/
+obj/
+
+# Ignore user-specific files
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Ignore build artifacts
+*.dll
+*.exe
+*.pdb
+*.cache
+*.config
+*.csproj.user
+*.vspscc
+*.vssscc
+*.genruntimeconfig.cache
+
+# Ignore static web assets
+wwwroot/
+staticwebassets/
+bin/
+obj/
