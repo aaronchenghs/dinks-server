@@ -28,19 +28,13 @@ public class User
     public string FirstName { get; set; }
     public string LastName { get; set; }
 
-    public DateTime DateOfBirth { get; set; }
+    public DateTime DateOfBirth { get; set; } = DateTime.UtcNow;
 
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; } =  DateTime.UtcNow;
 
-    public DateTime? UpdatedAt { get; set; }
+    public DateTime? UpdatedAt { get; set; } 
 
     public bool IsActive { get; set; }
 
-    // Navigation properties
-    public virtual AutoMapper.Profile Profile { get; set; }
-    public virtual ICollection<Event> Events { get; set; }
-    public virtual ICollection<Review> Reviews { get; set; }
-    public virtual ICollection<Post> Posts { get; set; }
-    public virtual ICollection<Message> Messages { get; set; }
 }

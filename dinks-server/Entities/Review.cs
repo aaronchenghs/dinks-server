@@ -10,11 +10,9 @@ namespace dinks_server.Entities
 
         [Required]
         public Guid PaddleId { get; set; }
-        public virtual Paddle Paddle { get; set; }
 
         [Required]
         public Guid UserId { get; set; }
-        public virtual User User { get; set; }
 
         [Required]
         [Range(1, 5)]
@@ -25,6 +23,6 @@ namespace dinks_server.Entities
         public string ReviewText { get; set; }
 
         [Required]
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

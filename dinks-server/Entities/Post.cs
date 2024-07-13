@@ -11,13 +11,12 @@ namespace dinks_server.Entities
 
         [Required]
         public Guid UserId { get; set; }
-        public virtual User User { get; set; }
 
         [Required]
         [StringLength(2000)]
         public string Content { get; set; }
 
         [Required]
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

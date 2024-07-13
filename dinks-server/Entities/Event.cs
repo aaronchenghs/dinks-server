@@ -15,7 +15,7 @@ namespace dinks_server.Entities
         public string Description { get; set; }
 
         [Required]
-        public DateTime Date { get; set; }
+        public DateTime Date { get; set; } = DateTime.UtcNow;
 
         [Required]
         [StringLength(500)]
@@ -23,6 +23,5 @@ namespace dinks_server.Entities
 
         [Required]
         public Guid CreatedBy { get; set; }
-        public virtual User User { get; set; }
     }
 }
