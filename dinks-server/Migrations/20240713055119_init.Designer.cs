@@ -11,7 +11,7 @@ using dinks_server;
 
 namespace dinks_server.Migrations
 {
-    [DbContext(typeof(ApplicationDBContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("20240713055119_init")]
     partial class init
     {
