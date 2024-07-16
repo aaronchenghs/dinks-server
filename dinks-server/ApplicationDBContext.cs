@@ -1,13 +1,14 @@
-﻿using dinks_server.Entities.Seeding;
-using dinks_server.Entities;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection;
+using dinks_server.Entities;
+using dinks_server.Entities.Seeding;
+using Microsoft.AspNetCore.Identity;
 
 namespace dinks_server
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     {
-        public ApplicationDbContext(DbContextOptions options) : base(options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
 
@@ -17,7 +18,6 @@ namespace dinks_server
             TestDataSeeding.Seed(modelBuilder);
         }
 
-        public DbSet<User> Users { get; set; }
         public DbSet<Profile> Profiles { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<Paddle> Paddles { get; set; }

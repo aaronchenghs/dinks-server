@@ -12,8 +12,8 @@ using dinks_server;
 namespace dinks_server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240713055119_init")]
-    partial class init
+    [Migration("20240716023355_authmigration")]
+    partial class authmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,136 @@ namespace dinks_server.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex");
+
+                    b.ToTable("AspNetRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("text");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
+                });
 
             modelBuilder.Entity("dinks_server.Entities.ChatBoard", b =>
                 {
@@ -47,7 +177,7 @@ namespace dinks_server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("b7d5f96f-61db-49c6-a311-0a6f355f6953"),
+                            Id = new Guid("e505ba90-053f-4729-8b52-d14fed6d9105"),
                             Description = "Talk about anything pickleball related",
                             Name = "General Discussion"
                         });
@@ -86,9 +216,9 @@ namespace dinks_server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("b7ccf751-b34c-4de8-922e-f461c83683a8"),
-                            CreatedBy = new Guid("0b86a69a-21be-4ecf-bf87-0fe2c960ccd4"),
-                            Date = new DateTime(2024, 8, 13, 5, 51, 19, 148, DateTimeKind.Utc).AddTicks(3871),
+                            Id = new Guid("134a8d18-851a-4b92-90d6-40e0fc5506f6"),
+                            CreatedBy = new Guid("2306e6ed-9230-4ff3-ba6c-0d6ffb42168c"),
+                            Date = new DateTime(2024, 8, 16, 2, 33, 55, 665, DateTimeKind.Utc).AddTicks(3272),
                             Description = "Annual pickleball tournament",
                             Location = "Location A",
                             Name = "Pickleball Tournament"
@@ -126,11 +256,11 @@ namespace dinks_server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("1333a064-960b-4cd4-947c-706a827421da"),
-                            ChatBoardId = new Guid("b7d5f96f-61db-49c6-a311-0a6f355f6953"),
+                            Id = new Guid("b8e81ab1-0af2-446c-8bfe-f88b6408a191"),
+                            ChatBoardId = new Guid("e505ba90-053f-4729-8b52-d14fed6d9105"),
                             Content = "Welcome to the chat!",
-                            CreatedAt = new DateTime(2024, 7, 13, 5, 51, 19, 148, DateTimeKind.Utc).AddTicks(3928),
-                            UserId = new Guid("0b86a69a-21be-4ecf-bf87-0fe2c960ccd4")
+                            CreatedAt = new DateTime(2024, 7, 16, 2, 33, 55, 665, DateTimeKind.Utc).AddTicks(3331),
+                            UserId = new Guid("2306e6ed-9230-4ff3-ba6c-0d6ffb42168c")
                         });
                 });
 
@@ -165,7 +295,7 @@ namespace dinks_server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("e184e169-b1aa-4b1b-8f09-d27f61a21054"),
+                            Id = new Guid("e967d7cd-d997-43d8-8a88-4519ead56813"),
                             Brand = "PickleBrand",
                             Details = "High quality paddle",
                             Name = "Pro Paddle",
@@ -197,10 +327,10 @@ namespace dinks_server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("f309f240-b5c5-47d8-9b60-f1d08869e8b0"),
+                            Id = new Guid("fdf5aafd-a0c5-4958-ad4f-dd25d255b984"),
                             Content = "Had a great game today!",
-                            CreatedAt = new DateTime(2024, 7, 13, 5, 51, 19, 148, DateTimeKind.Utc).AddTicks(3912),
-                            UserId = new Guid("0b86a69a-21be-4ecf-bf87-0fe2c960ccd4")
+                            CreatedAt = new DateTime(2024, 7, 16, 2, 33, 55, 665, DateTimeKind.Utc).AddTicks(3311),
+                            UserId = new Guid("2306e6ed-9230-4ff3-ba6c-0d6ffb42168c")
                         });
                 });
 
@@ -235,23 +365,23 @@ namespace dinks_server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("31f7b150-3bb8-4c0e-bec8-398ab7bb2c28"),
+                            Id = new Guid("198ebf17-35de-4616-aca3-ccf8bfc6454b"),
                             Bio = "Hello, I'm John!",
                             Icon = "url-to-icon",
                             Interests = "Pickleball",
                             Links = "http://example.com/johndoe",
                             SkillLevel = 3.5f,
-                            UserId = new Guid("0b86a69a-21be-4ecf-bf87-0fe2c960ccd4")
+                            UserId = new Guid("2306e6ed-9230-4ff3-ba6c-0d6ffb42168c")
                         },
                         new
                         {
-                            Id = new Guid("7c6bb7f3-336c-408c-a9c4-13ee34d1132e"),
+                            Id = new Guid("4990c2e3-5a12-45d0-b6ff-9032a835a87c"),
                             Bio = "Hello, I'm Jane!",
                             Icon = "url-to-icon",
                             Interests = "Pickleball",
                             Links = "http://example.com/janedoe",
                             SkillLevel = 4f,
-                            UserId = new Guid("cbbabb75-15aa-484a-97ef-4016bfd0290e")
+                            UserId = new Guid("e23b1551-f253-47bb-a1af-c8fe54812e67")
                         });
                 });
 
@@ -287,12 +417,12 @@ namespace dinks_server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("276cfead-44c9-4f9e-869c-445d10fd57a3"),
-                            CreatedAt = new DateTime(2024, 7, 13, 5, 51, 19, 148, DateTimeKind.Utc).AddTicks(3944),
-                            PaddleId = new Guid("e184e169-b1aa-4b1b-8f09-d27f61a21054"),
+                            Id = new Guid("f5b49273-016b-4699-9073-d7c7b6c7230d"),
+                            CreatedAt = new DateTime(2024, 7, 16, 2, 33, 55, 665, DateTimeKind.Utc).AddTicks(3350),
+                            PaddleId = new Guid("e967d7cd-d997-43d8-8a88-4519ead56813"),
                             Rating = 5,
                             ReviewText = "Excellent paddle!",
-                            UserId = new Guid("0b86a69a-21be-4ecf-bf87-0fe2c960ccd4")
+                            UserId = new Guid("2306e6ed-9230-4ff3-ba6c-0d6ffb42168c")
                         });
                 });
 
@@ -301,6 +431,13 @@ namespace dinks_server.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -314,6 +451,9 @@ namespace dinks_server.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("FirstName")
                         .HasColumnType("text");
 
@@ -323,43 +463,139 @@ namespace dinks_server.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("text");
 
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("boolean");
+
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Username")
+                    b.Property<string>("UserName")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex");
+
+                    b.ToTable("AspNetUsers", (string)null);
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("0b86a69a-21be-4ecf-bf87-0fe2c960ccd4"),
-                            CreatedAt = new DateTime(2024, 7, 13, 5, 51, 19, 148, DateTimeKind.Utc).AddTicks(3715),
-                            DateOfBirth = new DateTime(1994, 7, 13, 5, 51, 19, 148, DateTimeKind.Utc).AddTicks(3716),
+                            Id = new Guid("2306e6ed-9230-4ff3-ba6c-0d6ffb42168c"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "50db0c54-992b-4fb4-912f-e1b64b34fbca",
+                            CreatedAt = new DateTime(2024, 7, 16, 2, 33, 55, 665, DateTimeKind.Utc).AddTicks(3092),
+                            DateOfBirth = new DateTime(1994, 7, 16, 2, 33, 55, 665, DateTimeKind.Utc).AddTicks(3093),
                             Email = "test1@example.com",
+                            EmailConfirmed = false,
                             IsActive = true,
+                            LockoutEnabled = false,
                             PasswordHash = "hashedpassword",
-                            Username = "testuser1"
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
+                            UserName = "testuser1"
                         },
                         new
                         {
-                            Id = new Guid("cbbabb75-15aa-484a-97ef-4016bfd0290e"),
-                            CreatedAt = new DateTime(2024, 7, 13, 5, 51, 19, 148, DateTimeKind.Utc).AddTicks(3726),
-                            DateOfBirth = new DateTime(1999, 7, 13, 5, 51, 19, 148, DateTimeKind.Utc).AddTicks(3726),
+                            Id = new Guid("e23b1551-f253-47bb-a1af-c8fe54812e67"),
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "cd1fe7bd-1127-4e3c-91e2-61dc0dc7ffa9",
+                            CreatedAt = new DateTime(2024, 7, 16, 2, 33, 55, 665, DateTimeKind.Utc).AddTicks(3102),
+                            DateOfBirth = new DateTime(1999, 7, 16, 2, 33, 55, 665, DateTimeKind.Utc).AddTicks(3103),
                             Email = "test2@example.com",
+                            EmailConfirmed = false,
                             IsActive = true,
+                            LockoutEnabled = false,
                             PasswordHash = "hashedpassword",
-                            Username = "testuser2"
+                            PhoneNumberConfirmed = false,
+                            TwoFactorEnabled = false,
+                            UserName = "testuser2"
                         });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
+                {
+                    b.HasOne("dinks_server.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
+                {
+                    b.HasOne("dinks_server.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("dinks_server.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
+                {
+                    b.HasOne("dinks_server.Entities.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("dinks_server.Entities.Message", b =>

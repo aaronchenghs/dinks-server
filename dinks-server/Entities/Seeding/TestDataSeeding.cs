@@ -13,7 +13,7 @@ namespace dinks_server.Entities.Seeding
                 new User
                 {
                     Id = Guid.NewGuid(),
-                    Username = "testuser1",
+                    UserName = "testuser1",
                     Email = "test1@example.com",
                     PasswordHash = "hashedpassword",
                     CreatedAt = DateTime.UtcNow,
@@ -23,7 +23,7 @@ namespace dinks_server.Entities.Seeding
                 new User
                 {
                     Id = Guid.NewGuid(),
-                    Username = "testuser2",
+                    UserName = "testuser2",
                     Email = "test2@example.com",
                     PasswordHash = "hashedpassword",
                     CreatedAt = DateTime.UtcNow,

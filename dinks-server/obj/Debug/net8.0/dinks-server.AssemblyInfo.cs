@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("dinks-server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a4aa340da51f3310eee61ed096c6a98f7a013de1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2754d197ea826bc2c5dcc1f4c7d725a329640be9")]
 [assembly: System.Reflection.AssemblyProductAttribute("dinks-server")]
 [assembly: System.Reflection.AssemblyTitleAttribute("dinks-server")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
