@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using dinks_server;
@@ -11,9 +12,11 @@ using dinks_server;
 namespace dinks_server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240717015244_rfrshtkns")]
+    partial class rfrshtkns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -174,7 +177,7 @@ namespace dinks_server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("bd15ef13-ac38-458b-835a-b8453641fa34"),
+                            Id = new Guid("c41cca09-b826-4518-8298-d51ee44c6102"),
                             Description = "Talk about anything pickleball related",
                             Name = "General Discussion"
                         });
@@ -213,9 +216,9 @@ namespace dinks_server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("633ef52f-aace-4fec-8965-ad7dd71ab283"),
-                            CreatedBy = new Guid("d8196cd3-70ba-4907-a05d-bcf4913e28e5"),
-                            Date = new DateTime(2024, 8, 17, 2, 46, 55, 148, DateTimeKind.Utc).AddTicks(3739),
+                            Id = new Guid("0ab483e8-68b7-40fa-b730-129f902828f5"),
+                            CreatedBy = new Guid("a4ccfad8-2467-4548-9c6a-e8b47fde4aad"),
+                            Date = new DateTime(2024, 8, 17, 1, 52, 43, 495, DateTimeKind.Utc).AddTicks(7014),
                             Description = "Annual pickleball tournament",
                             Location = "Location A",
                             Name = "Pickleball Tournament"
@@ -253,11 +256,11 @@ namespace dinks_server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("5f5bdb8c-4b70-4b74-8704-4b4d600607bf"),
-                            ChatBoardId = new Guid("bd15ef13-ac38-458b-835a-b8453641fa34"),
+                            Id = new Guid("783964cf-5d51-4e13-a897-34a9af3c98e5"),
+                            ChatBoardId = new Guid("c41cca09-b826-4518-8298-d51ee44c6102"),
                             Content = "Welcome to the chat!",
-                            CreatedAt = new DateTime(2024, 7, 17, 2, 46, 55, 148, DateTimeKind.Utc).AddTicks(3800),
-                            UserId = new Guid("d8196cd3-70ba-4907-a05d-bcf4913e28e5")
+                            CreatedAt = new DateTime(2024, 7, 17, 1, 52, 43, 495, DateTimeKind.Utc).AddTicks(7069),
+                            UserId = new Guid("a4ccfad8-2467-4548-9c6a-e8b47fde4aad")
                         });
                 });
 
@@ -292,7 +295,7 @@ namespace dinks_server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("64707fcf-2b4c-4a9d-a642-ba8e50ba6bfb"),
+                            Id = new Guid("320a685e-207b-4912-b9f6-b0d6a9999ff5"),
                             Brand = "PickleBrand",
                             Details = "High quality paddle",
                             Name = "Pro Paddle",
@@ -324,10 +327,10 @@ namespace dinks_server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("42e06b37-c3d9-4ce2-a7bd-a18f8688fbb9"),
+                            Id = new Guid("d9aae527-3fb9-4a21-a8a0-5f334135c69b"),
                             Content = "Had a great game today!",
-                            CreatedAt = new DateTime(2024, 7, 17, 2, 46, 55, 148, DateTimeKind.Utc).AddTicks(3779),
-                            UserId = new Guid("d8196cd3-70ba-4907-a05d-bcf4913e28e5")
+                            CreatedAt = new DateTime(2024, 7, 17, 1, 52, 43, 495, DateTimeKind.Utc).AddTicks(7050),
+                            UserId = new Guid("a4ccfad8-2467-4548-9c6a-e8b47fde4aad")
                         });
                 });
 
@@ -362,23 +365,23 @@ namespace dinks_server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("7fea0fb3-5f68-4aa7-9d5e-d70047fafe2d"),
+                            Id = new Guid("d0b0fc53-e7b8-44e3-9cd1-dcee770ea772"),
                             Bio = "Hello, I'm John!",
                             Icon = "url-to-icon",
                             Interests = "Pickleball",
                             Links = "http://example.com/johndoe",
                             SkillLevel = 3.5f,
-                            UserId = new Guid("d8196cd3-70ba-4907-a05d-bcf4913e28e5")
+                            UserId = new Guid("a4ccfad8-2467-4548-9c6a-e8b47fde4aad")
                         },
                         new
                         {
-                            Id = new Guid("bcb396fc-23b8-4a3e-9a68-97b82b857b70"),
+                            Id = new Guid("8e30eb3e-841c-4e34-bb7b-63b8c5041ffc"),
                             Bio = "Hello, I'm Jane!",
                             Icon = "url-to-icon",
                             Interests = "Pickleball",
                             Links = "http://example.com/janedoe",
                             SkillLevel = 4f,
-                            UserId = new Guid("237d2166-4724-45f3-9b18-5684e62131f0")
+                            UserId = new Guid("7219e395-919e-40e4-9b60-ebcea39078e6")
                         });
                 });
 
@@ -442,12 +445,12 @@ namespace dinks_server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("2ef159a5-61bc-4f4b-9320-4ca487d57fae"),
-                            CreatedAt = new DateTime(2024, 7, 17, 2, 46, 55, 148, DateTimeKind.Utc).AddTicks(3818),
-                            PaddleId = new Guid("64707fcf-2b4c-4a9d-a642-ba8e50ba6bfb"),
+                            Id = new Guid("d1413350-b018-4fd2-a1b0-fd8158187eeb"),
+                            CreatedAt = new DateTime(2024, 7, 17, 1, 52, 43, 495, DateTimeKind.Utc).AddTicks(7089),
+                            PaddleId = new Guid("320a685e-207b-4912-b9f6-b0d6a9999ff5"),
                             Rating = 5,
                             ReviewText = "Excellent paddle!",
-                            UserId = new Guid("d8196cd3-70ba-4907-a05d-bcf4913e28e5")
+                            UserId = new Guid("a4ccfad8-2467-4548-9c6a-e8b47fde4aad")
                         });
                 });
 
@@ -480,9 +483,6 @@ namespace dinks_server.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("text");
-
-                    b.Property<string>("IconPath")
                         .HasColumnType("text");
 
                     b.Property<bool>("IsActive")
@@ -543,11 +543,11 @@ namespace dinks_server.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d8196cd3-70ba-4907-a05d-bcf4913e28e5"),
+                            Id = new Guid("a4ccfad8-2467-4548-9c6a-e8b47fde4aad"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "63497b2b-11d4-4f31-bf39-8b17ae95fd34",
-                            CreatedAt = new DateTime(2024, 7, 17, 2, 46, 55, 148, DateTimeKind.Utc).AddTicks(3572),
-                            DateOfBirth = new DateTime(1994, 7, 17, 2, 46, 55, 148, DateTimeKind.Utc).AddTicks(3573),
+                            ConcurrencyStamp = "b4fc1e49-9a6b-4da9-bf06-8e1e103c94d3",
+                            CreatedAt = new DateTime(2024, 7, 17, 1, 52, 43, 495, DateTimeKind.Utc).AddTicks(6904),
+                            DateOfBirth = new DateTime(1994, 7, 17, 1, 52, 43, 495, DateTimeKind.Utc).AddTicks(6905),
                             Email = "test1@example.com",
                             EmailConfirmed = false,
                             IsActive = true,
@@ -559,11 +559,11 @@ namespace dinks_server.Migrations
                         },
                         new
                         {
-                            Id = new Guid("237d2166-4724-45f3-9b18-5684e62131f0"),
+                            Id = new Guid("7219e395-919e-40e4-9b60-ebcea39078e6"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b14c9631-237a-4701-a81e-aa3c6fe7d222",
-                            CreatedAt = new DateTime(2024, 7, 17, 2, 46, 55, 148, DateTimeKind.Utc).AddTicks(3584),
-                            DateOfBirth = new DateTime(1999, 7, 17, 2, 46, 55, 148, DateTimeKind.Utc).AddTicks(3584),
+                            ConcurrencyStamp = "4206a647-2601-4ab9-9035-6185e096361f",
+                            CreatedAt = new DateTime(2024, 7, 17, 1, 52, 43, 495, DateTimeKind.Utc).AddTicks(6917),
+                            DateOfBirth = new DateTime(1999, 7, 17, 1, 52, 43, 495, DateTimeKind.Utc).AddTicks(6917),
                             Email = "test2@example.com",
                             EmailConfirmed = false,
                             IsActive = true,

@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity.Data;
+using System.Security.Cryptography;
 
 namespace dinks_server.Controllers
 {
@@ -119,16 +120,152 @@ namespace dinks_server.Controllers
             var response = _mapper.Map<UserDTO>(user);
             var token = GenerateJwtToken(user);
 
+            var refreshToken = GenerateRefreshToken();
+            user.RefreshTokens.Add(refreshToken);
+            await _context.SaveChangesAsync();
+
+            SetTokenCookie(refreshToken.Token);
+
             return Ok(new { Token = token, User = response });
+        }
+
+        [HttpPost("refresh-token")]
+        public async Task<IActionResult> RefreshToken()
+        {
+            var refreshToken = Request.Cookies["refreshToken"];
+            var user = await _context.Users.Include(u => u.RefreshTokens).SingleOrDefaultAsync(u => u.RefreshTokens.Any(t => t.Token == refreshToken));
+
+            if (user == null)
+            {
+                return Unauthorized("Invalid refresh token.");
+            }
+
+            var token = user.RefreshTokens.Single(x => x.Token == refreshToken);
+
+            if (!token.IsActive)
+            {
+                return Unauthorized("Invalid refresh token.");
+            }
+
+            var newRefreshToken = GenerateRefreshToken();
+            token.Revoked = DateTime.UtcNow;
+            user.RefreshTokens.Add(newRefreshToken);
+
+            await _context.SaveChangesAsync();
+
+            var jwtToken = GenerateJwtToken(user);
+
+            SetTokenCookie(newRefreshToken.Token);
+
+            return Ok(new { Token = jwtToken });
+        }
+
+        [HttpGet("validate-token")]
+        public IActionResult ValidateToken()
+        {
+            try
+            {
+                var token = Request.Headers["Authorization"].ToString().Replace("Bearer ", string.Empty);
+
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]);
+                var principal = tokenHandler.ValidateToken(token, new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidIssuer = _configuration["Jwt:Issuer"],
+                    ValidAudience = _configuration["Jwt:Issuer"],
+                    ClockSkew = TimeSpan.Zero
+                }, out SecurityToken validatedToken);
+
+                // Log the claims for debugging
+                foreach (var claim in principal.Claims)
+                {
+                    Console.WriteLine($"{claim.Type}: {claim.Value}");
+                }
+
+                return Ok();
+            }
+            catch
+            {
+                return Unauthorized();
+            }
+        }
+
+        [HttpGet("user")]
+        public async Task<IActionResult> GetUser()
+        {
+            // Filter claims with the nameidentifier type and validate them as Guids
+            var nameIdentifierClaims = User.Claims
+                .Where(claim => claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")
+                .ToList();
+
+            Guid userId;
+            var validGuidClaim = nameIdentifierClaims.FirstOrDefault(claim => Guid.TryParse(claim.Value, out userId));
+
+            if (validGuidClaim == null)
+            {
+                return Unauthorized("No valid user ID claim found");
+            }
+
+            // Parse the valid user ID
+            userId = Guid.Parse(validGuidClaim.Value);
+
+            var user = await _context.Users.FindAsync(userId);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var userDto = new UserDTO
+            {
+                Id = user.Id,
+                Username = user.UserName,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Dob = user.DateOfBirth,
+                CreatedAt = user.CreatedAt,
+                IsActive = user.IsActive,
+                IconPath = user.IconPath
+            };
+
+            return Ok(userDto);
+        }
+
+
+        private RefreshToken GenerateRefreshToken()
+        {
+            return new RefreshToken
+            {
+                Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
+                Expires = DateTime.UtcNow.AddDays(7),
+                Created = DateTime.UtcNow
+            };
+        }
+
+        private void SetTokenCookie(string token)
+        {
+            var cookieOptions = new CookieOptions
+            {
+                HttpOnly = true,
+                Expires = DateTime.UtcNow.AddDays(7)
+            };
+            Response.Cookies.Append("refreshToken", token, cookieOptions);
         }
 
         private string GenerateJwtToken(User user)
         {
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-            };
+        new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+        new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()), 
+        new Claim(ClaimTypes.Name, user.UserName) 
+    };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -137,10 +274,13 @@ namespace dinks_server.Controllers
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Issuer"],
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(30),
+                expires: DateTime.Now.AddDays(14),
                 signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+
+
     }
 }

@@ -7,7 +7,8 @@
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public DateTime DateOfBirth { get; set; }
+        public string IconPath { get; set; }
+        public DateTime Dob { get; set; }
         public DateTime CreatedAt { get; set; }
         public bool IsActive { get; set; }
     }

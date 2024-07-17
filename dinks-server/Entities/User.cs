@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Security.Policy;
 
 namespace dinks_server.Entities
 {
@@ -19,6 +21,8 @@ namespace dinks_server.Entities
         [Required]
         public override string PasswordHash { get; set; }
 
+        public string IconPath { get; set; }
+
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
@@ -30,5 +34,7 @@ namespace dinks_server.Entities
         public DateTime? UpdatedAt { get; set; }
 
         public bool IsActive { get; set; }
+
+        public ICollection<RefreshToken> RefreshTokens { get; set; } = new List<RefreshToken>();
     }
 }

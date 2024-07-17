@@ -18,6 +18,7 @@ namespace dinks_server
             TestDataSeeding.Seed(modelBuilder);
         }
 
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<Profile> Profiles { get; set; }
         public DbSet<Event> Events { get; set; }
         public DbSet<Paddle> Paddles { get; set; }
@@ -25,5 +26,6 @@ namespace dinks_server
         public DbSet<Post> Posts { get; set; }
         public DbSet<ChatBoard> ChatBoards { get; set; }
         public DbSet<Message> Messages { get; set; }
+
     }
 }
